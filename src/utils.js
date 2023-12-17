@@ -44,6 +44,10 @@ class TimeoutError extends ExtendableError {}
 function circularReplacer(options = { maxSafeObjectSize: Infinity }) {
 	const seen = new WeakSet();
 	return function (key, value) {
+		if (typeof value === "bigint") {
+			return value.toString();
+		  }
+
 		if (typeof value === "object" && value !== null) {
 			const objectType = (value.constructor && value.constructor.name) || typeof value;
 
